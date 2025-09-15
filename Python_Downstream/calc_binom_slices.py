@@ -35,8 +35,9 @@ def main():
 
 def init_pars():
     pars = {
-        'base_path': '/gpfs01/star/pwg/yunshancheng/ProtonPartition/QGP_Fluctuations/Tree_Reader/',
+        # 'base_path': '/gpfs01/star/pwg/yunshancheng/ProtonPartition/QGP_Fluctuations/Tree_Reader/',
         # 'csv_path': '/gpfs01/star/pwg/yunshancheng/ProtonPartition/Binomial_Slice_Moments/binom_slice_stats.csv',
+        'base_path': 'gpfs01/star/pwg/dneff/tree_reader_data/',
         'csv_path': '/gpfs01/star/pwg/dneff/Binomial_Slice_Moments/binom_slice_stats.csv',
         'csv_append': False,  # If True read dataframe from csv_path and append new datasets to it, else overwrite
         'only_new': False,  # If True check csv_path and only run missing datasets, else run all datasets
@@ -79,7 +80,7 @@ def define_datasets(base_path):
     entry_names = ['name', 'base_ext', 'exact_keys', 'contain_keys', 'exclude_keys',
                    'sub_set_includes', 'energies', 'cents', 'divs']
     entry_vals = [
-        ['bes_def', '', ['output'], [], [], [], all_energies, all_cents, all_divs],
+        ['bes_def', '', ['default'], [], [], [], all_energies, all_cents, all_divs],
     ]
 
     datasets = [dict(zip(entry_names, dset)) for dset in entry_vals]
