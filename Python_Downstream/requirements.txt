@@ -6,7 +6,6 @@ matplotlib
 numpy
 packaging
 pandas
-pillow
 pyparsing
 python-dateutil
 pytz
