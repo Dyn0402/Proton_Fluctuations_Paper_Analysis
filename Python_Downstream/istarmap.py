@@ -8,31 +8,76 @@ Created as QGP_Scripts/istarmap
 @author: Dylan Neff, dylan
 """
 
-# istarmap.py for Python 3.8+
-import sys
-if sys.version_info >= (3, 8):
-    import multiprocessing.pool as mpp
+# istarmap.py (Python 3.7+)
+import multiprocessing.pool as mpp
 
 
-    def istarmap(self, func, iterable, chunksize=1):
-        """starmap-version of imap
-        """
-        self._check_running()
-        if chunksize < 1:
-            raise ValueError(
-                "Chunksize must be 1+, not {0:n}".format(
-                    chunksize))
+def istarmap(self, func, iterable, chunksize=1):
+    """
+    starmap-version of imap that returns an iterator instead of a list.
+    Compatible with Python 3.7+.
+    """
+    self._check_running()
+    if chunksize < 1:
+        raise ValueError("Chunksize must be 1+, not {0:n}".format(chunksize))
 
+    # Python 3.8+ has _get_tasks, Python 3.7 does not
+    if hasattr(mpp.Pool, "_get_tasks"):
         task_batches = mpp.Pool._get_tasks(func, iterable, chunksize)
-        result = mpp.IMapIterator(self)
-        self._taskqueue.put(
-            (
-                self._guarded_task_generation(result._job,
-                                              mpp.starmapstar,
-                                              task_batches),
-                result._set_length
-            ))
-        return (item for chunk in result for item in chunk)
+    else:
+        # Backport of _get_tasks for 3.7
+        def gen_batches():
+            it = iter(iterable)
+            while True:
+                batch = []
+                try:
+                    for _ in range(chunksize):
+                        batch.append(next(it))
+                except StopIteration:
+                    if batch:
+                        yield batch
+                    break
+                yield batch
+
+        task_batches = (((func, args), {}) for batch in gen_batches() for args in batch)
+
+    result = mpp.IMapIterator(self)
+    self._taskqueue.put((
+        self._guarded_task_generation(result._job,
+                                      mpp.starmapstar,
+                                      task_batches),
+        result._set_length
+    ))
+    return (item for chunk in result for item in chunk)
 
 
-    mpp.Pool.istarmap = istarmap
+# Register to Pool
+mpp.Pool.istarmap = istarmap
+
+
+# istarmap.py for Python 3.8+
+# import multiprocessing.pool as mpp
+#
+#
+# def istarmap(self, func, iterable, chunksize=1):
+#     """starmap-version of imap
+#     """
+#     self._check_running()
+#     if chunksize < 1:
+#         raise ValueError(
+#             "Chunksize must be 1+, not {0:n}".format(
+#                 chunksize))
+#
+#     task_batches = mpp.Pool._get_tasks(func, iterable, chunksize)
+#     result = mpp.IMapIterator(self)
+#     self._taskqueue.put(
+#         (
+#             self._guarded_task_generation(result._job,
+#                                           mpp.starmapstar,
+#                                           task_batches),
+#             result._set_length
+#         ))
+#     return (item for chunk in result for item in chunk)
+#
+#
+# mpp.Pool.istarmap = istarmap
