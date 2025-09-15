@@ -71,14 +71,15 @@ def define_datasets(base_path):
     """
 
     all_divs = [60, 72, 89, 90, 120, 180, 240, 270, 288, 300, 356]
-    all_energies = [7, 11, 19, 27, 39, 62]
+    # all_energies = [7, 11, 19, 27, 39, 62]
+    all_energies = [11]
     all_cents = [0, 1, 2, 3, 4, 5, 6, 7, 8]  # [8]
     # all_cents = [8]
 
     entry_names = ['name', 'base_ext', 'exact_keys', 'contain_keys', 'exclude_keys',
                    'sub_set_includes', 'energies', 'cents', 'divs']
     entry_vals = [
-        ['bes_def', 'output', ['default'], [], [], [], all_energies, all_cents, all_divs],
+        ['bes_def', '', ['output'], [], [], [], all_energies, all_cents, all_divs],
     ]
 
     datasets = [dict(zip(entry_names, dset)) for dset in entry_vals]
