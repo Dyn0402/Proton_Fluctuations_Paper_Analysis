@@ -18,7 +18,8 @@ from time import sleep
 
 from multiprocessing import Pool
 import tqdm
-import istarmap  # Needed for tqdm
+# import istarmap  # Needed for tqdm
+from istarmap import starmap_with_progress
 
 from BootstrapAzBin import BootstrapAzBin
 from Measure import Measure
@@ -232,13 +233,17 @@ def read_data(pars):
         jobs.extend(get_dataset_jobs(dataset, pars))
     if pars['check_only']:  # Just check the files and return
         with Pool(pars['threads']) as pool:
-            for df_subset in tqdm.tqdm(pool.istarmap(check_subset, jobs), total=len(jobs)):
+            # for df_subset in tqdm.tqdm(pool.istarmap(check_subset, jobs), total=len(jobs)):
+            #     pass
+            for _ in starmap_with_progress(pool, check_subset, jobs, total=len(jobs)):
                 pass
         return
 
     df_subsets = []
     with Pool(pars['threads']) as pool:
-        for df_subset in tqdm.tqdm(pool.istarmap(read_subset, jobs), total=len(jobs)):
+        # for df_subset in tqdm.tqdm(pool.istarmap(read_subset, jobs), total=len(jobs)):
+        #     df_subsets.extend(df_subset)
+        for df_subset in starmap_with_progress(pool, read_subset, jobs, total=len(jobs)):
             df_subsets.extend(df_subset)
 
     df = pd.DataFrame(df_subsets)
@@ -610,7 +615,9 @@ def get_systematics(pars, df):
 
     jobs = [(df[df['name'] == sys_set['default']['name']], sys_set) for sys_set in pars['sys_sets']]
     with Pool(pars['threads']) as pool:
-        for sys_set_list in tqdm.tqdm(pool.istarmap(get_sys_set, jobs), total=len(jobs)):
+        # for sys_set_list in tqdm.tqdm(pool.istarmap(get_sys_set, jobs), total=len(jobs)):
+        #     sys_df.extend(sys_set_list)
+        for sys_set_list in starmap_with_progress(pool, get_sys_set, jobs, total=len(jobs)):
             sys_df.extend(sys_set_list)
 
     return pd.DataFrame(sys_df)
