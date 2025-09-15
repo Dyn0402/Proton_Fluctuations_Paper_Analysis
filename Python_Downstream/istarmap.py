@@ -8,24 +8,30 @@ Created as QGP_Scripts/istarmap
 @author: Dylan Neff, dylan
 """
 
-# istarmap.py (Python 3.7+)
+# istarmap.py for Python 3.7+
 import multiprocessing.pool as mpp
 
 
 def istarmap(self, func, iterable, chunksize=1):
     """
     starmap-version of imap that returns an iterator instead of a list.
-    Compatible with Python 3.7+.
+    Compatible with Python 3.7+ and 3.8+.
     """
-    self._check_running()
+    # In 3.7, there is no _check_running; instead use _state
+    if hasattr(self, "_check_running"):
+        self._check_running()
+    else:
+        if self._state != mpp.RUN:
+            raise ValueError("Pool not running")
+
     if chunksize < 1:
-        raise ValueError("Chunksize must be 1+, not {0:n}".format(chunksize))
+        raise ValueError("Chunksize must be >= 1, not {0:n}".format(chunksize))
 
     # Python 3.8+ has _get_tasks, Python 3.7 does not
     if hasattr(mpp.Pool, "_get_tasks"):
         task_batches = mpp.Pool._get_tasks(func, iterable, chunksize)
     else:
-        # Backport of _get_tasks for 3.7
+        # Backport task batching for 3.7
         def gen_batches():
             it = iter(iterable)
             while True:
@@ -51,7 +57,7 @@ def istarmap(self, func, iterable, chunksize=1):
     return (item for chunk in result for item in chunk)
 
 
-# Register to Pool
+# Patch Pool
 mpp.Pool.istarmap = istarmap
 
 
