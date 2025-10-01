@@ -9,6 +9,9 @@ rm -rf partition_env
 # Set the installation directory as a variable
 INSTALL_DIR=$(pwd)
 
+# Activate dylan's conda environment
+source /star/u/dneff/Software/anaconda3/bin/python
+
 # Clone the repositories
 git clone https://github.com/Dyn0402/Proton_Fluctuations_Paper_Analysis.git
 
