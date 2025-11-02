@@ -36,7 +36,7 @@ def init_pars():
     pars = {
         # 'base_path': '/gpfs01/star/pwg/yunshancheng/ProtonPartition/QGP_Fluctuations/Tree_Reader/',
         # 'csv_path': '/gpfs01/star/pwg/yunshancheng/ProtonPartition/Binomial_Slice_Moments/binom_slice_stats.csv',
-        'base_path': '/gpfs01/star/pwg/dneff/tree_reader_data/BES1/',
+        'base_path': '/gpfs01/star/pwg/dneff/tree_reader_data/Data/',
         'csv_path': '/gpfs01/star/pwg/dneff/Binomial_Slice_Moments/binom_slice_stats.csv',
         'csv_append': False,  # If True read dataframe from csv_path and append new datasets to it, else overwrite
         'only_new': False,  # If True check csv_path and only run missing datasets, else run all datasets
