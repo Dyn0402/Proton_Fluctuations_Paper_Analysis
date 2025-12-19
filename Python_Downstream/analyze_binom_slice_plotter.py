@@ -166,7 +166,7 @@ def plot_qa_example():
         figs = [plt.figure(n) for n in plt.get_fignums()]
         for i, fig in enumerate(figs):
             # Get figure title
-            fig_title = fig.axes[0].get_title().replace(' ', '_').replace(',', '').replace('%', '').replace('°', 'deg')
+            fig_title = fig.axes[0].get_title().replace(' ', '_').replace(',', '').replace('%', '').replace('°', 'deg').replace('/', '_')
             fig.savefig(f'{plot_output_dir}{fig_title}.pdf', format='pdf')
 
     plt.show()
