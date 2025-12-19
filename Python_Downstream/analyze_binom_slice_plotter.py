@@ -46,16 +46,17 @@ def main():
 def plot_qa_example():
     plt.rcParams["figure.figsize"] = (6.66, 5)
     plt.rcParams["figure.dpi"] = 144
-    # base_path = 'F:/Research/Results/Azimuth_Analysis/'
-    # v2_star_in_dir = 'F:/Research/Data/default/' \
-    #                  'rapid05_resample_norotate_seed_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/'
-    # df_name = 'Binomial_Slice_Moments/binom_slice_vars_bes_sys.csv'
-    # cent_ref_path = 'F:/Research/Results/Azimuth_Analysis/mean_cent_ref.csv'
-    base_path = '/star/u/dneff/gpfs/'
-    v2_star_in_dir = '/star/u/dneff/gpfs/tree_reader_data/Data/default/' \
+    base_path = 'F:/Research/Results/Azimuth_Analysis/'
+    v2_star_in_dir = 'F:/Research/Data/default/' \
                      'rapid05_resample_norotate_seed_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/'
-    df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_stats.csv'
-    cent_ref_path = f'{base_path}Binomial_Slice_Moments/mean_cent_ref.csv'
+    df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_vars_bes_sys.csv'
+    cent_ref_path = 'F:/Research/Results/Azimuth_Analysis/mean_cent_ref.csv'
+
+    # base_path = '/star/u/dneff/gpfs/'
+    # v2_star_in_dir = '/star/u/dneff/gpfs/tree_reader_data/Data/default/' \
+    #                  'rapid05_resample_norotate_seed_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/'
+    # df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_stats.csv'
+    # cent_ref_path = f'{base_path}Binomial_Slice_Moments/mean_cent_ref.csv'
 
     plot = True
     threads = os.cpu_count() - 2 if os.cpu_count() > 2 else 1
@@ -88,8 +89,9 @@ def plot_qa_example():
         print(data_set_name)
         if 'ampt' not in data_set_name and data_set_name != 'bes_def':
             cent_ref_extra_sets.append(cent_ref_df[cent_ref_df['data_set'] == 'bes_def'].assign(data_set=data_set_name))
-    cent_ref_extra_sets = pd.concat(cent_ref_extra_sets)
-    cent_ref_df = pd.concat([cent_ref_df, cent_ref_extra_sets])
+    if len(cent_ref_extra_sets) > 0:
+        cent_ref_extra_sets = pd.concat(cent_ref_extra_sets)
+        cent_ref_df = pd.concat([cent_ref_df, cent_ref_extra_sets])
 
     v2_star_vals = {2: read_flow_values(v2_star_in_dir)}
     v2_sys_vals = {}
