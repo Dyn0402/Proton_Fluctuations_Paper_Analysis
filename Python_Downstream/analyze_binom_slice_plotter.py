@@ -54,8 +54,8 @@ def plot_qa_example():
     # cent_ref_path = 'F:/Research/Results/Azimuth_Analysis/mean_cent_ref.csv'
 
     base_path = '/star/u/dneff/gpfs/'
-    v2_star_in_dir = '/star/u/dneff/gpfs/tree_reader_data/Data/default/' \
-                     'rapid05_resample_norotate_seed_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/'
+    v2_star_in_dir = ('/star/u/dneff/gpfs/tree_reader_data/Data/default/'
+                      'rapid05_resample_norotate_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/')
     df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_stats.csv'
     cent_ref_path = f'{base_path}Binomial_Slice_Moments/mean_cent_ref.csv'
 
