@@ -58,6 +58,7 @@ def plot_qa_example():
                       'rapid05_resample_norotate_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/')
     df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_stats.csv'
     cent_ref_path = f'{base_path}Binomial_Slice_Moments/mean_cent_ref.csv'
+    plot_output_dir = f'{base_path}Plots/'
 
     plot = True
     threads = os.cpu_count() - 2 if os.cpu_count() > 2 else 1
@@ -159,6 +160,14 @@ def plot_qa_example():
                               title=f'{div_plt}° Partitions, {samples} Samples per Event', alpha=0.8, errbar_alpha=0.3,
                               kin_info_loc=(0.2, 0.1), star_prelim_loc=(0.3, 0.5),
                               data_sets_energies_colors=data_sets_energies_colors)
+
+    if plot_output_dir:
+        # Save all open figures
+        figs = [plt.figure(n) for n in plt.get_fignums()]
+        for i, fig in enumerate(figs):
+            # Get figure title
+            fig_title = fig.axes[0].get_title().replace(' ', '_').replace(',', '').replace('%', '').replace('°', 'deg')
+            fig.savefig(f'{plot_output_dir}{fig_title}.pdf', format='pdf')
 
     plt.show()
 
