@@ -165,9 +165,9 @@ def plot_qa_example():
         # Save all open figures
         figs = [plt.figure(n) for n in plt.get_fignums()]
         for i, fig in enumerate(figs):
-            # Get figure title
-            fig_title = fig.axes[0].get_title().replace(' ', '_').replace(',', '').replace('%', '').replace('°', 'deg').replace('/', '_')
-            fig.savefig(f'{plot_output_dir}{fig_title}.pdf', format='pdf')
+            # Get figure canvas title and use it as filename
+            fig_title = fig.canvas.manager.get_window_title().replace(' ', '_').replace(',', '').replace('°', 'deg')
+            fig.savefig(f'{plot_output_dir}{fig_title}_{i}.pdf', format='pdf')
 
     plt.show()
 
