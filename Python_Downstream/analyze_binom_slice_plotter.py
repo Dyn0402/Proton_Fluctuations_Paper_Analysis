@@ -53,12 +53,19 @@ def plot_qa_example():
     # df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_vars_bes_sys.csv'
     # cent_ref_path = 'F:/Research/Results/Azimuth_Analysis/mean_cent_ref.csv'
 
-    base_path = '/star/u/dneff/gpfs/'
-    v2_star_in_dir = ('/star/u/dneff/gpfs/tree_reader_data/Data/default/'
+    # base_path = '/star/u/dneff/gpfs/'
+    # v2_star_in_dir = ('/star/u/dneff/gpfs/tree_reader_data/Data/default/'
+    #                   'rapid05_resample_norotate_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/')
+    # df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_stats.csv'
+    # cent_ref_path = f'{base_path}Binomial_Slice_Moments/mean_cent_ref.csv'
+    # plot_output_dir = f'{base_path}Plots/'
+
+    base_path = '/gpfs01/star/pwg/yunshancheng/'
+    v2_star_in_dir = (f'{base_path}ProtonPartition2/tree_reader_data/Data/default/'
                       'rapid05_resample_norotate_dca1_nsprx1_m2r6_m2s0_nhfit20_epbins1_calcv2_0/')
-    df_path = f'{base_path}Binomial_Slice_Moments/binom_slice_stats.csv'
-    cent_ref_path = f'{base_path}Binomial_Slice_Moments/mean_cent_ref.csv'
-    plot_output_dir = f'{base_path}Plots/'
+    df_path = f'{base_path}ProtonPartition/Binomial_Slice_Moments/binom_slice_stats.csv'
+    cent_ref_path = f'{base_path}ProtonPartition/Binomial_Slice_Moments/mean_cent_ref.csv'
+    plot_output_dir = f'{base_path}ProtonPartition/Plots/'
 
     plot = True
     threads = os.cpu_count() - 2 if os.cpu_count() > 2 else 1
